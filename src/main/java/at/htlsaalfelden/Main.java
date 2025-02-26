@@ -2,7 +2,7 @@ package at.htlsaalfelden;
 
 public class Main {
     public static void main(String[] args) {
-        Graph graph = new Graph();
+        Graph<Integer> graph = new Graph<>();
         graph.addVertex(1);
         graph.addVertex(2);
         graph.addVertex(3);
@@ -12,6 +12,8 @@ public class Main {
         graph.connect(2,3, 0);
         graph.connect(4,1, 0);
         graph.connect(1,4,1);
+
+        AdjazenzMatrix.print(graph);
 
         System.out.println();
     }

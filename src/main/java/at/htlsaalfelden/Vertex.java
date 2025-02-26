@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Vertex {
-    private int data;
+public class Vertex<T> {
+    private T data;
     private List<Edge> edges;
 
-    public Vertex(int data) {
+    public Vertex(T data) {
         this.data = data;
         this.edges = new ArrayList<>();
     }
 
-    public int getData() {
+    public T getData() {
         return data;
     }
 
@@ -25,8 +25,8 @@ public class Vertex {
         this.edges.add(edge);
     }
 
-    public List<Vertex> getNeighbours() {
-        List<Vertex> neighbours = new ArrayList<>();
+    public List<Vertex<?>> getNeighbours() {
+        List<Vertex<?>> neighbours = new ArrayList<>();
         for(Edge e : edges) {
             if(e.getV()[0] == this) {
                 neighbours.add(e.getV()[1]);

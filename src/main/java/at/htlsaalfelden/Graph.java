@@ -2,9 +2,10 @@ package at.htlsaalfelden;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class Graph {
-    private List<Vertex> vertices;
+public class Graph<T> {
+    private List<Vertex<T>> vertices;
     private List<Edge> edges;
 
     public Graph() {
@@ -12,22 +13,22 @@ public class Graph {
         edges = new ArrayList<>();
     }
 
-    public void addVertex(Vertex vertex) {
+    public void addVertex(Vertex<T> vertex) {
         vertices.add(vertex);
     }
 
-    public void addVertex(int vertex) {
-        addVertex(new Vertex(vertex));
+    public void addVertex(T vertex) {
+        addVertex(new Vertex<>(vertex));
     }
 
-    public void connect(int v1, int v2, int cost) {
-        Vertex vertex1 = getVertex(v1);
-        Vertex vertex2 = getVertex(v2);
+    public void connect(T v1, T v2, int cost) {
+        Vertex<T> vertex1 = getVertex(v1);
+        Vertex<T> vertex2 = getVertex(v2);
 
         connect(vertex1, vertex2, cost);
     }
 
-    public void connect(Vertex v1, Vertex v2, int cost) {
+    public void connect(Vertex<?> v1, Vertex<?> v2, int cost) {
         Edge e = new Edge(v1, v2, cost);
         if(edges.contains(e)) {
             return;
@@ -38,7 +39,7 @@ public class Graph {
         v2.addEdge(e);
     }
 
-    public List<Vertex> getVertices() {
+    public List<Vertex<T>> getVertices() {
         return vertices;
     }
 
@@ -46,8 +47,8 @@ public class Graph {
         return edges;
     }
 
-    public Vertex getVertex(int id) {
-        var r = vertices.stream().filter(vertex -> vertex.getData() == id).findFirst();
+    public Vertex<T> getVertex(T id) {
+        var r = vertices.stream().filter(vertex -> Objects.equals(vertex.getData(), id)).findFirst();
         return r.orElse(null);
     }
 }
