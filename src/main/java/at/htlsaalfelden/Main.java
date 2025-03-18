@@ -3,6 +3,7 @@ package at.htlsaalfelden;
 public class Main {
     public static void main(String[] args) {
         Graph<Integer> graph = new Graph<>();
+        graph.setOmnidirectional(true);
         graph.addVertex(1);
         graph.addVertex(2);
         graph.addVertex(3);

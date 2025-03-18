@@ -8,6 +8,8 @@ public class Graph<T> {
     private List<Vertex<T>> vertices;
     private List<Edge> edges;
 
+    private boolean omnidirectional = false;
+
     public Graph() {
         vertices = new ArrayList<>();
         edges = new ArrayList<>();
@@ -26,6 +28,10 @@ public class Graph<T> {
         Vertex<T> vertex2 = getVertex(v2);
 
         connect(vertex1, vertex2, cost);
+
+        if(omnidirectional) {
+            connect(vertex2, vertex1, cost);
+        }
     }
 
     public void connect(Vertex<?> v1, Vertex<?> v2, int cost) {
@@ -50,5 +56,13 @@ public class Graph<T> {
     public Vertex<T> getVertex(T id) {
         var r = vertices.stream().filter(vertex -> Objects.equals(vertex.getData(), id)).findFirst();
         return r.orElse(null);
+    }
+
+    public boolean isOmnidirectional() {
+        return omnidirectional;
+    }
+
+    public void setOmnidirectional(boolean omnidirectional) {
+        this.omnidirectional = omnidirectional;
     }
 }
