@@ -17,5 +17,7 @@ public class Main {
         AdjazenzMatrix.print(graph);
 
         System.out.println();
+
+        graph.dfs(integerVertex -> System.err.println(integerVertex.getData()), 1);
     }
 }

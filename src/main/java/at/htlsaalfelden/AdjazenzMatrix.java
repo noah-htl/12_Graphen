@@ -21,9 +21,9 @@ public class AdjazenzMatrix {
             i++;
         }
 
-        for(Edge e : graph.getEdges()) {
-            int a = map.get(e.getV()[0].getData());
-            int b = map.get(e.getV()[1].getData());
+        for(Edge<T> e : graph.getEdges()) {
+            int a = map.get(e.getV1().getData());
+            int b = map.get(e.getV2().getData());
 
             printout[a][b] = e.getCost() + "";
         }

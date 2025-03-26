@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Vertex<T> {
     private T data;
-    private List<Edge> edges;
+    private List<Edge<T>> edges;
 
     public Vertex(T data) {
         this.data = data;
@@ -17,25 +17,42 @@ public class Vertex<T> {
         return data;
     }
 
-    public List<Edge> getEdges() {
+    public List<Edge<T>> getEdges() {
         return edges;
     }
 
-    public void addEdge(Edge edge) {
+    public void addEdge(Edge<T> edge) {
         this.edges.add(edge);
     }
 
-    public List<Vertex<?>> getNeighbours() {
-        List<Vertex<?>> neighbours = new ArrayList<>();
-        for(Edge e : edges) {
-            if(e.getV()[0] == this) {
-                neighbours.add(e.getV()[1]);
+    public List<Vertex<T>> getNeighbours() {
+        List<Vertex<T>> neighbours = new ArrayList<>();
+        for(Edge<T> e : edges) {
+            if(e.getV1() == this) {
+                neighbours.add(e.getV2());
             } else {
-                neighbours.add(e.getV()[0]);
+                neighbours.add(e.getV1());
             }
         }
 
         return neighbours;
+    }
+
+    public void bfs(Graph<T>.SearchContext context) {
+        context.consume(this);
+    }
+
+    public void dfs(Graph<T>.SearchContext context) {
+        context.consume(this);
+        context.visitedVertices.add(this);
+
+        for (Vertex<T> vertex : getNeighbours()) {
+            System.out.println();
+            if(context.visitedVertices.contains(vertex)) {
+                continue;
+            }
+            vertex.dfs(context);
+        }
     }
 
 
@@ -43,12 +60,8 @@ public class Vertex<T> {
     public final boolean equals(Object o) {
         if (!( o instanceof Vertex vertex )) return false;
 
-        for(Edge e : edges) {
-            if(!vertex.getEdges().contains(e)) {
-                return false;
-            }
-        }
-        return true;
+
+        return Objects.equals(vertex.data, data);
     }
 
     @Override

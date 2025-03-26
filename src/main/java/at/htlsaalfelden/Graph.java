@@ -3,10 +3,13 @@ package at.htlsaalfelden;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Graph<T> {
     private List<Vertex<T>> vertices;
-    private List<Edge> edges;
+    private List<Edge<T>> edges;
 
     private boolean omnidirectional = false;
 
@@ -34,8 +37,8 @@ public class Graph<T> {
         }
     }
 
-    public void connect(Vertex<?> v1, Vertex<?> v2, int cost) {
-        Edge e = new Edge(v1, v2, cost);
+    public void connect(Vertex<T> v1, Vertex<T> v2, int cost) {
+        Edge<T> e = new Edge<T>(v1, v2, cost);
         if(edges.contains(e)) {
             return;
         }
@@ -49,7 +52,7 @@ public class Graph<T> {
         return vertices;
     }
 
-    public List<Edge> getEdges() {
+    public List<Edge<T>> getEdges() {
         return edges;
     }
 
@@ -64,5 +67,40 @@ public class Graph<T> {
 
     public void setOmnidirectional(boolean omnidirectional) {
         this.omnidirectional = omnidirectional;
+    }
+
+    public void bfs(Consumer<Vertex<T>> c, T tStart) {
+        SearchContext context = new SearchContext(this, c);
+        Vertex<T> vStart = getVertex(tStart);
+
+        context.visitedVertices.add(vStart);
+        vStart.bfs(context);
+    }
+
+    public void dfs(Consumer<Vertex<T>> c, T tStart) {
+        SearchContext context = new SearchContext(this, c);
+
+        Vertex<T> vStart = getVertex(tStart);
+
+        vStart.dfs(context);
+    }
+
+    public class SearchContext {
+        public final List<Vertex<T>> visitedVertices = new ArrayList<>();
+        private final Graph<T> graph;
+        private final Consumer<Vertex<T>> consumer;
+
+        private SearchContext(Graph<T> graph, Consumer<Vertex<T>> consumer) {
+            this.graph = graph;
+            this.consumer = consumer;
+        }
+
+        public List<Vertex<T>> getOpenVertices() {
+            return graph.getVertices().stream().filter(tVertex -> !visitedVertices.contains(tVertex)).toList();
+        }
+
+        public void consume(Vertex<T> vertex) {
+            consumer.accept(vertex);
+        }
     }
 }
