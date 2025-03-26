@@ -73,7 +73,7 @@ public class Graph<T> {
         SearchContext context = new SearchContext(this, c);
         Vertex<T> vStart = getVertex(tStart);
 
-        context.visitedVertices.add(vStart);
+        context.consume(vStart);
         vStart.bfs(context);
     }
 

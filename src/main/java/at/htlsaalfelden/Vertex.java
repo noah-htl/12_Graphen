@@ -39,7 +39,22 @@ public class Vertex<T> {
     }
 
     public void bfs(Graph<T>.SearchContext context) {
-        context.consume(this);
+        context.visitedVertices.add(this);
+
+        List<Vertex<T>> neighbours = getNeighbours();
+
+        for (Vertex<T> vertex : neighbours) {
+            if(context.visitedVertices.contains(vertex)) {
+                continue;
+            }
+            context.consume(vertex);
+        }
+        for (Vertex<T> vertex : neighbours) {
+            if(context.visitedVertices.contains(vertex)) {
+                continue;
+            }
+            vertex.bfs(context);
+        }
     }
 
     public void dfs(Graph<T>.SearchContext context) {
@@ -47,7 +62,6 @@ public class Vertex<T> {
         context.visitedVertices.add(this);
 
         for (Vertex<T> vertex : getNeighbours()) {
-            System.out.println();
             if(context.visitedVertices.contains(vertex)) {
                 continue;
             }
