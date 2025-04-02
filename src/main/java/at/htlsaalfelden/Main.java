@@ -1,9 +1,11 @@
 package at.htlsaalfelden;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         Graph<String> graph = new Graph<>();
-        graph.setOmnidirectional(false);
+        graph.setOmnidirectional(true);
         graph.addVertex("A");
         graph.addVertex("B");
         graph.addVertex("C");
@@ -19,6 +21,8 @@ public class Main {
 
         System.out.println();
 
-        graph.bfs(integerVertex -> System.err.println(integerVertex.getData()), "A");
+        //graph.bfs(integerVertex -> System.err.println(integerVertex.getData()), "A");
+        List<Edge<String>> edges = graph.aStar("C", "A");
+        System.out.println(edges);
     }
 }

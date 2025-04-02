@@ -22,4 +22,17 @@ public class Edge<T> {
     public int getCost() {
         return cost;
     }
+
+    public Vertex<T> getOther(Vertex<T> c) {
+        if(c == v1) {
+            return v2;
+        } else {
+            return v1;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return v1.getData() + "->" + v2.getData();
+    }
 }
