@@ -149,6 +149,26 @@ public class Graph<T> {
         return edges.reversed();
     }
 
+    public String pathToString(List<Edge<T>> path, Vertex<T> vStart) {
+        StringBuilder sb = new StringBuilder();
+
+        if(path.isEmpty()) {
+            return "No path found!";
+        }
+
+        Vertex<T> before = vStart;
+
+        sb.append(before.getData());
+
+        for(Edge<T> edge : path) {
+            Vertex<T> v1 = edge.getOther(before);
+            sb.append("->").append(v1.getData());
+            before = v1;
+        }
+
+        return sb.toString();
+    }
+
     private class AStarNodeContext {
         private final Vertex<T> vertex;
         private Edge<T> edgeToParent;
